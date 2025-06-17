@@ -8,7 +8,6 @@ from warnings import filterwarnings
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.neural_network import MLPClassifier
 from tqdm import tqdm
 
 filterwarnings("ignore") 
@@ -126,16 +125,16 @@ def mlp_eval(train_embedding, val_embedding, embedding_size, num_classes=8, targ
     return preds_array
 
 print('1-NN evaluation:\n')
-_ = k_nearest_neighbor_eval(emb_train, emb_val, k=1)
+_ = k_nearest_neighbor_eval(emb_train, emb_test, k=1)
 print('-' * 75)
 
 print('\n20-NN evaluation:\n')
-_ = k_nearest_neighbor_eval(emb_train, emb_val, k=20)
+_ = k_nearest_neighbor_eval(emb_train, emb_test, k=20)
 print('-' * 75)
 
 print('\nLinear probing:\n')
-_ = linear_probing_eval(emb_train, emb_val)
+_ = linear_probing_eval(emb_train, emb_test)
 print('-' * 75)
 
 print('\nMLP trained:\n')
-_ = mlp_eval(emb_train, emb_val, model.embed_dim)
+_ = mlp_eval(emb_train, emb_test, model.embed_dim)

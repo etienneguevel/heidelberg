@@ -1,0 +1,25 @@
+[project]
+name = "heidelberg"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "etienneguevel", email = "etienneguev@gmail.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.10.3",
+    "medmnist>=3.0.2",
+    "scikit-learn>=1.7.0",
+    "seaborn>=0.13.2",
+    "timm>=1.0.15",
+    "tqdm>=4.67.1",
+    "umap-learn>=0.5.7",
+]
+
+[project.scripts]
+heidelberg = "heidelberg:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
