@@ -97,7 +97,7 @@ def mlp_eval(train_embedding, val_embedding, embedding_size, num_classes=8, targ
     optimizer = optim.Adam(cls.parameters())
 
     # Fit the classifier
-    n_epochs=10
+    n_epochs = 20
     for epoch in tqdm(range(n_epochs)):
         cls.train()
         for emb, labels in train_loader:
