@@ -6,7 +6,7 @@ readme = "README.md"
 authors = [
     { name = "etienneguevel", email = "etienneguev@gmail.com" }
 ]
-requires-python = ">=3.10,<3.11"
+requires-python = ">=3.10,<=3.11"
 dependencies = [
     "cython>=3.1.2",
     "ipykernel>=6.29.5",
