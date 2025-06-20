@@ -8,6 +8,7 @@ from warnings import filterwarnings
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from sklearn.neighbors import KNeighborsClassifier
+from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 filterwarnings("ignore") 
