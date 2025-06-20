@@ -13,7 +13,7 @@ from tqdm import tqdm
 
 filterwarnings("ignore") 
 
-def k_nearest_neighbor_eval(train_embedding, val_embedding, k=1, target_names=names):
+def k_nearest_neighbor_eval(train_embedding, test_embedding, k=1, target_names=names):
     # Initialize the classifier
     cls = KNeighborsClassifier(n_neighbors=k)
 
@@ -21,19 +21,19 @@ def k_nearest_neighbor_eval(train_embedding, val_embedding, k=1, target_names=na
     train_array = np.array([emb for emb, _ in train_embedding])
     train_labels = np.array([lab for _, lab in train_embedding])
 
-    val_array = np.array([emb for emb, _ in val_embedding])
-    val_labels = np.array([lab for _, lab in val_embedding])
+    test_array = np.array([emb for emb, _ in test_embedding])
+    test_labels = np.array([lab for _, lab in test_embedding])
     
     # Fit the model
     cls.fit(train_array, train_labels)
 
     # Make the predictions
-    preds = cls.predict(val_array)
-    print(classification_report(val_labels, preds, target_names=target_names))
+    preds = cls.predict(test_array)
+    print(classification_report(test_labels, preds, target_names=target_names))
 
     return preds
 
-def linear_probing_eval(train_embedding, val_embedding, target_names=names):
+def linear_probing_eval(train_embedding, test_embedding, target_names=names):
     # Initialize the classifier
     cls = LogisticRegression()
 
@@ -41,15 +41,15 @@ def linear_probing_eval(train_embedding, val_embedding, target_names=names):
     train_array = np.array([emb for emb, _ in train_embedding])
     train_labels = np.array([lab for _, lab in train_embedding])
 
-    val_array = np.array([emb for emb, _ in val_embedding])
-    val_labels = np.array([lab for _, lab in val_embedding])
+    test_array = np.array([emb for emb, _ in test_embedding])
+    test_labels = np.array([lab for _, lab in test_embedding])
 
     # Fit the model
     cls.fit(train_array, train_labels)
 
     # Make the predictions
-    preds = cls.predict(val_array)
-    print(classification_report(val_labels, preds, target_names=target_names))
+    preds = cls.predict(test_array)
+    print(classification_report(test_labels, preds, target_names=target_names))
 
     return preds
 
@@ -79,10 +79,10 @@ class Mlp(nn.Module):
         x = self.drop(x)
         return x
 
-def mlp_eval(train_embedding, val_embedding, embedding_size, num_classes=8, target_names=names):
+def mlp_eval(train_embedding, test_embedding, embedding_size, num_classes=8, target_names=names):
     # Unpack the embeddings & labels
     train_loader = DataLoader(train_embedding, batch_size=64)
-    val_loader = DataLoader(val_embedding, batch_size=64)
+    test_loader = DataLoader(test_embedding, batch_size=64)
     
     # Initialize the classifier
     hidden_size = int(embedding_size * 4/3)
@@ -111,7 +111,7 @@ def mlp_eval(train_embedding, val_embedding, embedding_size, num_classes=8, targ
 
     # Make the predictions
     label_val, preds_val = [], []
-    for emb, labels in val_loader:
+    for emb, labels in test_loader:
         outputs = cls(emb)
         preds = outputs.argmax(dim=1)
 
