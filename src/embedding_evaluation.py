@@ -13,16 +13,16 @@ from tqdm import tqdm
 
 filterwarnings("ignore") 
 
-def k_nearest_neighbor_eval(train_embedding, test_embedding, k=1, target_names=names):
+def k_nearest_neighbor_eval(
+    train_array,
+    train_labels,
+    test_array,
+    test_labels,
+    k=1,
+    target_names=names
+):
     # Initialize the classifier
     cls = KNeighborsClassifier(n_neighbors=k)
-
-    # Unpack the embeddings & labels
-    train_array = np.array([emb for emb, _ in train_embedding])
-    train_labels = np.array([lab for _, lab in train_embedding])
-
-    test_array = np.array([emb for emb, _ in test_embedding])
-    test_labels = np.array([lab for _, lab in test_embedding])
     
     # Fit the model
     cls.fit(train_array, train_labels)
@@ -33,16 +33,15 @@ def k_nearest_neighbor_eval(train_embedding, test_embedding, k=1, target_names=n
 
     return preds
 
-def linear_probing_eval(train_embedding, test_embedding, target_names=names):
+def linear_probing_eval(
+    train_array,
+    train_labels,
+    test_array,
+    test_labels,
+    target_names=names
+):
     # Initialize the classifier
     cls = LogisticRegression()
-
-    # Unpack the embeddings & labels
-    train_array = np.array([emb for emb, _ in train_embedding])
-    train_labels = np.array([lab for _, lab in train_embedding])
-
-    test_array = np.array([emb for emb, _ in test_embedding])
-    test_labels = np.array([lab for _, lab in test_embedding])
 
     # Fit the model
     cls.fit(train_array, train_labels)
@@ -53,6 +52,7 @@ def linear_probing_eval(train_embedding, test_embedding, target_names=names):
 
     return preds
 
+# Bonus: we can also use an MLP fitted on the embeddings to evaluate their quality.
 class Mlp(nn.Module):
     def __init__(
         self,
@@ -126,15 +126,20 @@ def mlp_eval(train_embedding, test_embedding, embedding_size, num_classes=8, tar
     return preds_array
 
 print('1-NN evaluation:\n')
-_ = k_nearest_neighbor_eval(emb_train, emb_test, k=1)
+_ = k_nearest_neighbor_eval(
+    train_array, train_labels, test_array, test_labels, k=1
+)
 print('-' * 75)
 
 print('\n20-NN evaluation:\n')
-_ = k_nearest_neighbor_eval(emb_train, emb_test, k=20)
+_ = k_nearest_neighbor_eval(
+    train_array, train_labels, test_array, test_labels, k=20
+)
 print('-' * 75)
 
 print('\nLinear probing:\n')
-_ = linear_probing_eval(emb_train, emb_test)
+_ = linear_probing_eval(
+    train_array, train_labels, test_array, test_labels)
 print('-' * 75)
 
 print('\nMLP trained:\n')
