@@ -1,5 +1,5 @@
 medmnist
 umap-learn
-python-javabridge
-python-bioformats
-git+https://github.com/ultralytics/ultralytics.git
+# python-javabridge
+# python-bioformats
+# git+https://github.com/ultralytics/ultralytics.git

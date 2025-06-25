@@ -18,7 +18,7 @@ class EmbeddingDataset(Dataset):
             model, dataset, n_samples
         )
 
-    def _create_vectors(self, model, dataset, n_samples, batch_size=32):
+    def _create_vectors(self, model, dataset, n_samples, batch_size=64):
         embeddings = []
         label_list = []
         model.to(self.device)
